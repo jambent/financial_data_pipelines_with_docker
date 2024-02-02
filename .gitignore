@@ -20,3 +20,4 @@ dags/logs
 dags/airflow*
 dags/webserver*
 .env
+logs
