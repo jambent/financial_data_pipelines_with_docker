@@ -8,9 +8,3 @@ variable "yfinance_fx_transformation_name" {
     default = "yfinance_fx_transformation"
 }
 
-
-variable "db_credentials_val_data" {
-  type = string
-  sensitive = true
-  nullable=false
-}

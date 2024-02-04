@@ -2,8 +2,8 @@ resource "aws_db_instance" "default" {
   allocated_storage = 5
   engine = "postgres"
   instance_class = "db.t3.micro"
-  username = "val_user"
-  password = aws_secretsmanager_secret_version.db_creds_val_data.secret_string
+  username = local.username
+  password = local.password
   skip_final_snapshot = true // required to destroy
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
