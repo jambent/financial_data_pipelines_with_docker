@@ -1,13 +1,13 @@
 import pytest
 import pandas as pd
 import boto3
-from moto import mock_s3
+from moto import mock_aws
 from unittest.mock import patch
 
 from src.yfinance_fx_transform_and_load.load_parquet_file import load_parquet
 
 
-@mock_s3
+@mock_aws
 @patch('src.yfinance_fx_transform_and_load.load_parquet_file.load_parquet',
        return_value=pd.DataFrame())
 def test_that_dataframe_returned(patched_load_parquet):
@@ -23,7 +23,7 @@ def test_that_dataframe_returned(patched_load_parquet):
     assert isinstance(result, pd.DataFrame)
 
 
-@mock_s3
+@mock_aws
 @patch('src.yfinance_fx_transform_and_load.load_parquet_file.wr.s3')
 def test_that_awswrangler_func_called_with_right_arguments(
         patched_parquet_load):

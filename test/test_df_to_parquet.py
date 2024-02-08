@@ -2,13 +2,13 @@ import pytest
 import pandas as pd
 import boto3
 import awswrangler as wr
-from moto import mock_s3
+from moto import mock_aws
 from unittest.mock import patch
 
 from src.yfinance_fx_ingestion.df_to_parquet import dataframe_to_parquet
 
 
-@mock_s3
+@mock_aws
 def test_that_input_dataframe_not_mutated():
     df = pd.DataFrame()
     df_copy = df.copy(deep=True)
@@ -26,7 +26,7 @@ def test_that_input_dataframe_not_mutated():
     assert df is not df_copy
 
 
-@mock_s3
+@mock_aws
 def test_that_type_error_thrown_for_non_dataframe_input():
     with pytest.raises(TypeError, match=r'must be a dataframe'):
         bucket = 'test-bucket'
@@ -39,7 +39,7 @@ def test_that_type_error_thrown_for_non_dataframe_input():
         dataframe_to_parquet("hello", bucket, key)
 
 
-@mock_s3
+@mock_aws
 @patch('src.yfinance_fx_ingestion.df_to_parquet.dataframe_to_parquet',
        side_effect=(Exception
                     ('Writing of parquet file to landing bucket failed')))
@@ -61,7 +61,7 @@ def test_that_exception_thrown_for_invalid_arguments(
         assert e.type == Exception
 
 
-@mock_s3
+@mock_aws
 def test_that_input_dataframe_is_recoverable_from_parquet_file():
     df = pd.DataFrame(data={'col1': [1, 2], 'col2': [3, 4]})
     bucket = 'test-bucket'
