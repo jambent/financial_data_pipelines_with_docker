@@ -5,7 +5,6 @@ import json
 
 def get_db_credentials(secret_name):
 
-    #secret_name = "db_credentials_val_data"
     region_name = "eu-west-2"
 
     session = boto3.session.Session()
