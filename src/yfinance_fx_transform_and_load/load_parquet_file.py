@@ -27,5 +27,3 @@ def load_parquet(bucket, key):
         return df
     except Exception as e:
         print(f'Parquet file s3://{bucket}/{key} could not be read: {e}')
-
-
