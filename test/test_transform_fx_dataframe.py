@@ -1,6 +1,6 @@
 import pandas as pd
 
-from yfinance_fx_transform_and_load.transform_fx_dataframe \
+from src.yfinance_fx_transform_and_load.transform_fx_dataframe \
     import transform_dataframe
 
 

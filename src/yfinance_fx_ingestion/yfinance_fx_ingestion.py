@@ -2,6 +2,7 @@ import os
 
 from load_fx_data import load_fx_data
 
+
 from df_to_parquet import dataframe_to_parquet
 
 
