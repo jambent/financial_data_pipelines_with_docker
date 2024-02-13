@@ -7,6 +7,7 @@ from airflow.operators.python import PythonOperator
 from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
 from airflow.hooks.S3_hook import S3Hook
 import os
+import boto3
 # import ssl
 # import awswrangler as wr
 from datetime import datetime as dt
@@ -81,16 +82,17 @@ dg = DAG('FX_1630_s3_sensor',
           catchup=True
           )
 #s3_conn = S3Hook.get_conn()
-# s3_client = boto3.client('s3')
+s3_client = boto3.client('s3')
 # s3_client = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],region_name=os.environ['AWS_DEFAULT_REGION']
 # )
 
-# buckets = s3_client.list_buckets()
-# bucket_names = [bucket['Name'] for bucket in buckets['Buckets']]
+buckets = s3_client.list_buckets()
+bucket_names = [bucket['Name'] for bucket in buckets['Buckets']]
 
-# matched_bucket_name = [match for match in bucket_names if "landing" in match]
-# s3_bucket_name = matched_bucket_name[0]
-s3_landing_bucket = os.environ['S3_LANDING_ID']
+matched_bucket_name = [match for match in bucket_names if "landing" in match]
+s3_landing_bucket = matched_bucket_name[0]
+
+# s3_landing_bucket = os.environ['S3_LANDING_ID']
 
 time_now = dt.now()
 date_today = str(time_now.date())
