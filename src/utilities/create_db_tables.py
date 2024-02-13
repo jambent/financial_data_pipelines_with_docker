@@ -22,6 +22,7 @@ try:
     id SERIAL PRIMARY KEY,
     date DATE,
     batch VARCHAR,
+    batch_ready BOOLEAN,
     inserted TIMESTAMP default CURRENT_TIMESTAMP
     );"""
 

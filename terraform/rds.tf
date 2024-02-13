@@ -6,6 +6,7 @@ resource "aws_db_instance" "default" {
   parameter_group_name = aws_db_parameter_group.switch_off_force_ssl.name
   username = local.username
   password = local.password
+  port = local.port
   skip_final_snapshot = true // required to destroy
 
   publicly_accessible = true
