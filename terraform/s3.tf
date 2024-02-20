@@ -32,6 +32,12 @@ resource "aws_s3_object" "yfinance_fx_ingestion_code" {
   bucket = aws_s3_bucket.code_bucket.id
 }
 
+resource "aws_s3_object" "yfinance_equity_index_ingestion_code" {
+  key    = "yfinance_equity_index_ingestion_function.zip"
+  source = "${path.module}/../lambda_code_zip_files/yfinance_equity_index_ingestion_function.zip"
+  bucket = aws_s3_bucket.code_bucket.id
+}
+
 
 
 ##############################################################################

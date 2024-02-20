@@ -49,10 +49,49 @@ resource "aws_lambda_permission" "allow_2000_events" {
 
 
 
+
+##############################################################################
+# Equity Index ingestion lambda                                                                 #
+##############################################################################
+
+resource "aws_lambda_function" "yfinance_equity_index_dataframe_to_parquet" {
+  function_name = var.yfinance_eq_ix_lambda_to_pq_name
+  role          = aws_iam_role.yfinance_equity_index_lambda_df_to_parquet_role.arn
+  s3_bucket     = aws_s3_bucket.code_bucket.id
+  s3_key        = aws_s3_object.yfinance_equity_index_ingestion_code.key
+  handler       = "yfinance_equity_index_ingestion.lambda_handler"
+  runtime       = "python3.11"
+  timeout       = 60
+  environment {
+    variables = {
+      "S3_LANDING_ID"          = aws_s3_bucket.landing_bucket.id,
+      "S3_LANDING_ARN"         = aws_s3_bucket.landing_bucket.arn
+    }
+  }
+  layers = [
+            "arn:aws:lambda:eu-west-2:336392948345:layer:AWSSDKPandas-Python311:4",
+            aws_lambda_layer_version.yfinance_layer.arn
+        ]
+
+}
+
+resource "aws_lambda_permission" "allow_equity_index_1615_events" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.yfinance_equity_index_dataframe_to_parquet.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.yfinance_equity_index_ingestion_lambda_1615_invocation_rule.arn
+  source_account = data.aws_caller_identity.current.account_id
+}
+
+
+
+
+
+/*
 ##############################################################################
 # FX transformation lambda                                                                 #
 ##############################################################################
-/*
+
 resource "aws_lambda_function" "yfinance_fx_transformation" {
   function_name = var.yfinance_fx_transformation_name
   role          = aws_iam_role.yfinance_fx_lambda_df_to_parquet_role.arn
