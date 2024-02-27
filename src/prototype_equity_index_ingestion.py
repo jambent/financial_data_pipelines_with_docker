@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime as dt
 
 if __name__ == '__main__':
-    target_time = dt.fromisoformat('2024-02-16T16:30:00Z')
+    target_time = dt.fromisoformat('2024-02-26T16:15:00Z')
 
     TICKER_LIST = [
         '^FTSE',
@@ -15,22 +15,22 @@ if __name__ == '__main__':
     ]
 
     DATAFRAME_COLUMNS = [
-    'Open',
-    'High',
-    'Low',
-    'Close',
-    'Volume',
-    'Dividends',
-    'Stock Splits',
-    'Ticker']
+        'Open',
+        'High',
+        'Low',
+        'Close',
+        'Volume',
+        'Dividends',
+        'Stock Splits',
+        'Ticker']
 
     BATCH_TIMES = [
-    '16:30:00',
-    '20:00:00'
+        '16:30:00',
+        '20:00:00'
     ]
 
     # df = generate_empty_dataframe_for_equity_index_data(DATAFRAME_COLUMNS)
-    
+
     df = pd.DataFrame(
         columns=(
             'Open',
@@ -43,7 +43,7 @@ if __name__ == '__main__':
             'Ticker'))
     for ticker in TICKER_LIST:
         ticker_data = yf.Ticker(ticker)
-        ticker_df = ticker_data.history(period='1d', interval='15m')
+        ticker_df = ticker_data.history(period='2d', interval='15m')
         filtered_ticker_df = ticker_df.loc[[target_time]]
         filtered_ticker_df['Ticker'] = ticker
         df = pd.concat([df, filtered_ticker_df])

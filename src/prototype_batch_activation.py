@@ -1,7 +1,7 @@
 import ssl
 import awswrangler as wr
 from pg8000.native import literal
-from datetime import timedelta, datetime as dt
+from datetime import datetime as dt
 
 if __name__ == '__main__':
 
@@ -15,7 +15,7 @@ if __name__ == '__main__':
         ssl_context=ssl_context)
     cursor = conn.cursor()
     try:
-        activate_1630_val_batch = f"""INSERT INTO val_batch 
+        activate_1630_val_batch = f"""INSERT INTO val_batch
         (date, batch, batch_ready)
         VALUES
         ({literal(date_today)}, '1630', true);"""
