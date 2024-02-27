@@ -31,6 +31,14 @@ resource "aws_lambda_permission" "allow_0600_events" {
   source_account = data.aws_caller_identity.current.account_id
 }
 
+resource "aws_lambda_permission" "allow_1615_events" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.yfinance_fx_dataframe_to_parquet.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.yfinance_fx_ingestion_lambda_1615_invocation_rule.arn
+  source_account = data.aws_caller_identity.current.account_id
+}
+
 resource "aws_lambda_permission" "allow_1630_events" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.yfinance_fx_dataframe_to_parquet.function_name
