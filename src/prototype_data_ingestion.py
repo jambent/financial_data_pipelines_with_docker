@@ -44,6 +44,5 @@ if __name__ == '__main__':
 
         df = pd.concat([df, filtered_ticker_df])
 
-
     print(ticker_df.head())
     print(df.head())

@@ -19,6 +19,15 @@ if __name__ == '__main__':
         inserted TIMESTAMP default CURRENT_TIMESTAMP
         );"""
 
+        create_val_equity_index = """CREATE TABLE val_equity_index (
+        id SERIAL PRIMARY KEY,
+        date DATE,
+        batch VARCHAR,
+        equity_index VARCHAR,
+        index_level DECIMAL(13,8),
+        inserted TIMESTAMP default CURRENT_TIMESTAMP
+        );"""
+
         create_val_batch = """CREATE TABLE val_batch (
         id SERIAL PRIMARY KEY,
         date DATE,
@@ -28,6 +37,7 @@ if __name__ == '__main__':
         );"""
 
         cursor.execute(create_val_fx)
+        cursor.execute(create_val_equity_index)
         cursor.execute(create_val_batch)
         conn.commit()
 

@@ -4,7 +4,7 @@ import boto3
 from moto import mock_aws
 from unittest.mock import patch
 
-from src.yfinance_fx_transform_and_load.load_parquet_file import load_parquet
+from plugins.load_parquet_file import load_parquet
 
 
 @mock_aws

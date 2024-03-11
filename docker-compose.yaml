@@ -76,6 +76,7 @@ x-airflow-common:
     #- ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ~/.aws/:/home/airflow/.aws
     - ${AIRFLOW_PROJ_DIR:-.}/src/yfinance_fx_transform_and_load:/opt/airflow/plugins/src/yfinance_fx_transform_and_load
+    - ${AIRFLOW_PROJ_DIR:-.}/src/yfinance_equity_index_transform_and_load:/opt/airflow/plugins/src/yfinance_equity_index_transform_and_load
     - ${AIRFLOW_PROJ_DIR:-.}/src/utilities:/opt/airflow/plugins/src/utilities
     - ${AIRFLOW_PROJ_DIR:-.}/src/yfinance_batch_completion:/opt/airflow/plugins/src/yfinance_batch_completion
   user: "${AIRFLOW_UID:-50000}:0"
