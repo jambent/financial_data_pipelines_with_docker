@@ -72,13 +72,13 @@ date_today = str(time_now.date())
 fx_0600_s3_key = date_today + '/' + '0600' + '/' + 'yfinance_FX.parquet'
 fx_1630_s3_key = date_today + '/' + '1630' + '/' + 'yfinance_FX.parquet'
 equity_index_1615_s3_key = date_today + '/' + \
-    '1615' + '/' + 'yfinance_Equity_Index.parquet'
+    '1630' + '/' + 'yfinance_Equity_Index.parquet'
 fx_2000_s3_key = date_today + '/' + '2000' + '/' + 'yfinance_FX.parquet'
 
 
 with DAG(
     '1630_val_data_batch',
-    schedule_interval='31 16 * * 1-5',
+    schedule_interval='52 16 * * 1-5',
     default_args=default_args,
     catchup=True
 ):
@@ -99,9 +99,9 @@ with DAG(
     equity_index_1615_s3_sensor = S3KeySensor(
     task_id='equity_index_1615_s3_file_check',
     poke_interval=60,
-    timeout=600,
+    #timeout=300,
     soft_fail=False,
-    # retries=2,
+    retries=2,
     bucket_key=equity_index_1615_s3_key,
     bucket_name=s3_landing_bucket,
     aws_conn_id='aws_default',
@@ -111,9 +111,9 @@ with DAG(
     fx_1630_s3_sensor = S3KeySensor(
     task_id='fx_1630_s3_file_check',
     poke_interval=60,
-    timeout=960,
+    #timeout=300,
     soft_fail=False,
-    # retries=2,
+    retries=2,
     bucket_key=fx_1630_s3_key,
     bucket_name=s3_landing_bucket,
     aws_conn_id='aws_default',
