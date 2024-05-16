@@ -1,17 +1,17 @@
 # financial_data_pipelines_with_docker
-Introduction
+##Introduction
 This project was made in order to gain very basic familiarity with the Airflow orchestration tool, and the AWS RDS database resource.
 Yahoo Finance FX and Equity Index data for different batch times is extracted using the yfinance Python library.  The data is converted to the parquet format and stored in an s3 bucket.
 
 An Airflow dag senses when the separate FX and Equity Index parquet files arrive in the s3 bucket, and triggers functions to write the data to separate tables in the RDS instance.  Airflow will then only write a data-batch-complete flag to a third table once both the corresponding FX and Equity Index data for the batch has been fully inserted.
 
-Setup
-Python
+##Setup
+###Python
 ```
 pip install -r requirements. txt
 ```
 
-Airflow and Docker
+###Airflow and Docker
 Setup Airflow following the pattern established in the following webpage, including adding connection to the postgres database in the web UI:
 https://airflow.apache.org/docs/apache-airflow/stable/tutorial/pipeline.html
 
@@ -38,7 +38,7 @@ The Docker image using these Airflow requirements can then be built using
 docker-compose build
 ```
 
-terraform
+###terraform
 Create an s3 bucket which will be used to store the terraform state file.
 
 For example, in the AWS CLI:
@@ -46,7 +46,7 @@ For example, in the AWS CLI:
 aws s3 mb s3://yfinance-ingest-backend
 ```
 Then make sure that the backend "s3" bucket name, inside the terraform provider.tf file, is changed to match your newly-created bucket's name:
-```
+```terraform
 provider "aws" {
   region  = "eu-west-2"
 }
@@ -61,7 +61,7 @@ terraform {
 ```
 
 Within the .terraform folder (within the terraform folder) the vars.tfvars file should contain your choice of credentials to connect to the RDS instance:
-```
+```terraform
 db_credentials = {
     "db_credentials": {
         "port": "your_required_port",
@@ -81,13 +81,13 @@ terraform apply -var-file=".terraform/vars.tfvars"
 Note that the "host" required to connect to the db is not present in .tfvars.  This was added manually to the Secret created by Terraform from within the AWS Management Console (see below).
 
 
-AWS Management Console PostgreSQL
+###AWS Management Console
 The RDS "host" value was added manually to the Secret created by Terraform from within the AWS Management Console, using the endpoint of the RDS instance observed in the AWS Management Console as its value.
 The RDS security group also had to be changed to allow ingress into the RDS port from my personal public IP address.
 Also altered pg_hba.conf and postgresql.conf files in /etc/postgresql/14/main, to include rule for my personal public IP address and to listen on all addresses, respectively. 
 
 
-PostgreSQL
+###PostgreSQL
 Local pg_hba.conf and postgresql.conf files within
 ``` 
 /etc/postgresql/14/main
